@@ -25,3 +25,11 @@ exports.reg_login_schema = {
     }
 }
 
+// 验证规则对象 - 重置对象
+exports.update_password_schema = {
+    body: {
+        oldPwd: userPassword,
+        newPwd: joi.not(joi.ref('oldPwd')).concat(userPassword)
+    }
+}
+

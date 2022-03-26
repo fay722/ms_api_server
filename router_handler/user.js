@@ -39,7 +39,7 @@ exports.regUser = (req, res) => {
         // console.log(userInfo.userPassword);
         // 插入新用户
         const sql2 = 'insert into ms_users set ?'
-        db.query(sql2, { userName: userInfo.userName, userPassword: userInfo.userPassword }, (err, results) => {
+        db.query(sql2, { userName: userInfo.userName, tel: userInfo.tel, userPassword: userInfo.userPassword }, (err, results) => {
             if (err)
                 // return res.send({status: '1',message: err.message})
                 return res.cc(err)
@@ -73,6 +73,24 @@ exports.login = (req, res) => {
             message: '登陆成功',
             userStatus: results[0].status,
             token: 'Bearer ' + tokenStr,
+        })
+    })
+}
+
+// exports.getPermission = (req, res) => {
+//     console.log(req.user.token)
+// }
+
+// 收藏数
+exports.getCollectNum = (req, res) => {
+    console.log('req.query');
+    const sql = 'SELECT COUNT(*) as num FROM ms_collect WHERE homeId=?'
+    db.query(sql, parseInt(req.query.homeId), (err, results) => {
+        if (err) return res.cc(err)
+        return res.send({
+            status: 0,
+            message: '查询总数成功',
+            result: results[0]
         })
     })
 }
